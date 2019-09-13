@@ -1,0 +1,30 @@
+apiVersion: authentication.istio.io/v1alpha1
+kind: MeshPolicy
+metadata:
+  name: default
+spec:
+  peers:
+  - mtls:
+      mode:
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: player-backend-mtls
+  namespace: hack-istio-player-backend
+spec:
+  host: "*.hack-istio-instruments.svc.cluster.local"
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: ingress-gateway-mtls
+  namespace: istio-system
+spec:
+  host: "*.hack-istio-player-backend.svc.cluster.local"
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL

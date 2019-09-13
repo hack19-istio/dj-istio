@@ -1,0 +1,48 @@
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ClusterRbacConfig
+metadata:
+  name: default
+spec:
+  mode: 'ON'
+---
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRole
+metadata:
+  name: player-backend-access-service-role
+  namespace: hack-istio-instruments
+spec:
+  rules:
+  - services: ["piano1.hack-istio-instruments.svc.cluster.local"]
+---
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRoleBinding
+metadata:
+  name: player-backend-access-binding
+  namespace: hack-istio-instruments
+spec:
+  subjects:
+  - user: "*"
+  roleRef:
+    kind: ServiceRole
+    name: "player-backend-access-service-role"
+---
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRole
+metadata:
+  name: ingress-gateway-access-service-role
+  namespace: hack-istio-player-backend
+spec:
+  rules:
+  - services: ["*"]
+---
+apiVersion: "rbac.istio.io/v1alpha1"
+kind: ServiceRoleBinding
+metadata:
+  name: ingress-gateway-access-binding
+  namespace: hack-istio-player-backend
+spec:
+  subjects:
+  - user: "*"
+  roleRef:
+    kind: ServiceRole
+    name: "ingress-gateway-access-service-role"
