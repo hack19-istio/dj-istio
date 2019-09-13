@@ -7,6 +7,6 @@ Visualize your Service Mesh!
 
 # Setup
 - Create the service accounts
-```kubectl apply -f base-setup/serviceaccounts.yaml``
+```kubectl apply -f base-setup/serviceaccounts.yaml```
 - Install the different instrument containers
 ```kubectl apply -f base-setup/instruments/bass.yaml```
