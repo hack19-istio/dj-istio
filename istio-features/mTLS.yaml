@@ -1,3 +1,4 @@
+# Enable mutual TLS globally in the cluster (only mTLS connections are allowed)
 apiVersion: authentication.istio.io/v1alpha1
 kind: MeshPolicy
 metadata:
@@ -7,24 +8,26 @@ spec:
   - mtls:
       mode:
 ---
+# Enable mTLS between namespace "player-backend" and all services in namespace "instruments"
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: player-backend-mtls
-  namespace: hack-istio-player-backend
+  name: player-backend-to-instruments-mtls
+  namespace: player-backend
 spec:
-  host: "*.hack-istio-instruments.svc.cluster.local"
+  host: "*"
   trafficPolicy:
     tls:
       mode: ISTIO_MUTUAL
 ---
+# Enable mTLS between namespace "istio-system" and all services
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
   name: ingress-gateway-mtls
   namespace: istio-system
 spec:
-  host: "*.hack-istio-player-backend.svc.cluster.local"
+  host: "*"
   trafficPolicy:
     tls:
       mode: ISTIO_MUTUAL

@@ -1,0 +1,135 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: player-backend
+  name: player-backend
+  labels:
+    app: player-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: player-backend
+  template:
+    metadata:
+      labels:
+        app: player-backend
+    spec:
+      serviceAccountName: player-backend-sa
+      containers:
+      - name: player-backend
+        image: elessar1ch/playerbackend:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: server_port
+          value: "3000"
+        - name: instrument_port
+          value: "8080"
+        - name: instrument_resource
+          value: "instrument"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: player-backend
+  name: player-backend
+spec:
+  selector:
+    app: player-backend
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 3000
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: player-backend-gateway
+  namespace: player-backend
+spec:
+  selector:
+    istio: ingressgateway # use Istio default gateway implementation
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: player-backend-vs
+  namespace: player-backend
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - player-backend-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /instrument
+    - uri:
+        prefix: /instrument-file
+    route:
+    - destination:
+        port:
+          number: 8080
+        host: player-backend
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: bass
+  namespace: player-backend
+spec:
+  type: ExternalName
+  externalName: bass.instruments.svc.cluster.local
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: hh
+  namespace: player-backend
+spec:
+  type: ExternalName
+  externalName: hh.instruments.svc.cluster.local
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: kicksnare
+  namespace: player-backend
+spec:
+  type: ExternalName
+  externalName: kicksnare.instruments.svc.cluster.local
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: piano
+  namespace: player-backend
+spec:
+  type: ExternalName
+  externalName: piano.instruments.svc.cluster.local
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: rhodes
+  namespace: player-backend
+spec:
+  type: ExternalName
+  externalName: rhodes.instruments.svc.cluster.local
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: pad
+  namespace: player-backend
+spec:
+  type: ExternalName
+  externalName: pad.instruments.svc.cluster.local
