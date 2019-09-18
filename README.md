@@ -1,6 +1,9 @@
 # DJ Istio
 Visualize your Service Mesh!
 
+# Overview
+![alt text](https://github.com/hack19-istio/dj-istio/tree/master/docs/architecture.png "Overview")
+
 # Prerequisits
 - Kubernetes cluster and access via kubectl (tested with version 1.13.7)
 - Istio installed on Kubernetes (tested with version 1.2.5)
