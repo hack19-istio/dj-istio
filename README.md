@@ -24,7 +24,7 @@ Including service and ingress gateway configuration
 ```
 kubectl apply -f <(istioctl kube-inject -f base-setup/player-ui.yaml)
 ```
-The UI can be accessed at http://<ingress-gateway-ip>
+The UI can be accessed at http://\<ingress-gateway-ip\>
 ### Deploy the backend API container
 Including services and ingress gateway configuration
 ```
