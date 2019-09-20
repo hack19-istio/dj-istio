@@ -24,13 +24,14 @@ Including service and ingress gateway configuration
 ```
 kubectl apply -f <(istioctl kube-inject -f base-setup/player-ui.yaml)
 ```
+The UI can be accessed at http://<ingress-gateway-ip>
 ### Deploy the backend API container
 Including services and ingress gateway configuration
 ```
 kubectl apply -f <(istioctl kube-inject -f base-setup/player-backend.yaml)
 ```
 ### Deploy the different instrument containers
-_bass_, and _piano_ exist as v1 and v2
+_bass_ and _piano_ exist as v1 and v2
 ```
 kubectl apply -f <(istioctl kube-inject -f base-setup/instruments/rhodes.yaml)
 kubectl apply -f <(istioctl kube-inject -f base-setup/instruments/bass.yaml)
