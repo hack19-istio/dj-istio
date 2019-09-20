@@ -2,10 +2,7 @@
 Visualize your Service Mesh!
 
 # Overview
-![alt text](https://github.com/hack19-istio/dj-istio/tree/master/docs/architecture.png "Overview")
-<p align="center">
-  <img width="460" height="300" src="https://github.com/hack19-istio/dj-istio/tree/master/docs/architecture.png">
-</p>
+![Alt text](/docs/architecture.png?raw=true "Architecture overview")
 
 # Prerequisits
 - Kubernetes cluster and access via kubectl (tested with version 1.13.7)
